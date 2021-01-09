@@ -30,47 +30,55 @@ linklist *create()
 
 //预处理函数(排序以及去除重复项)
 void sort(linklist*L){
-    linklist *p=L->next,*pre;
-    linklist *r=p->next;
-    p->next=NULL;
-    p=r;
-    while(p!=NULL){
-        r=p->next;
-        pre=L;
-        while(pre->next!=NULL&&pre->next->data<p->data){
-            pre=pre->next;            
-        }
-        p->next=pre->next;
-        pre->next=p;
+    if (L->next==NULL){
+        L=L;}
+    else{    
+        linklist *p=L->next,*pre;
+        linklist *r=p->next;
+        p->next=NULL;
         p=r;
-    }//排序
-    
-    pre=L;
-    p=pre->next;
-    r=NULL;
-    while(p!=NULL){
-        if (pre->data==p->data){
-            r=p;
-            p=p->next;
+        while(p!=NULL){
+            r=p->next;
+            pre=L;
+            while(pre->next!=NULL&&pre->next->data<p->data){
+                pre=pre->next;            
+            }
+            p->next=pre->next;
             pre->next=p;
-        }
-        else{
-            pre=p;
-            p=p->next;
-        }
-   }//删除重复项
+            p=r;
+        }//排序
+    
+        pre=L;
+        p=pre->next;
+        r=NULL;
+        while(p!=NULL){
+            if (pre->data==p->data){
+                r=p;
+                p=p->next;
+                pre->next=p;
+            }
+            else{
+                pre=p;
+                p=p->next;
+            }
+        }//删除重复项
+    }
 }
 
 //输出函数
 void print(linklist*L)
-{
-    linklist *p;
-    p = L->next;
-    while(p->next != NULL){
-        printf("%d ",p->data);
-        p = p->next;
+{   
+    if(L->next==NULL){
+        printf("\n");
+    }else{
+        linklist *p;
+        p = L->next;
+        while(p->next != NULL){
+            printf("%d ",p->data);
+            p = p->next;
+        }
+        printf("%d\n",p->data);
     }
-    printf("%d\n",p->data);
 }
 
 
@@ -78,7 +86,10 @@ void print(linklist*L)
 linklist* insec(linklist *A, linklist * B){
 
     if(A->next==NULL || B->next == NULL){
-        return NULL;
+        
+        if(A->next==NULL)return A;
+        if(B->next==NULL)return B;
+
     }//特殊情况
 
     linklist *L,*a,*b,*r,*q;
